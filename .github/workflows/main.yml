@@ -73,5 +73,5 @@ jobs:
         run: |
           for file in artifacts/*; do
             echo "Uploading $file"
-            gh release upload v0.0.3 "$file" --clobber
+            gh release upload v0.0.31 "$file" --clobber
           done

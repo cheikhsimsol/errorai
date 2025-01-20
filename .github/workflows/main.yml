@@ -1,1 +1,55 @@
 
+name: Build and Release Go Binary
+
+on:
+  push:
+    tags:
+      - 'v*'  # This will trigger the workflow when a version tag is pushed.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # The job runs on Ubuntu (you can run this on other OSs if needed)
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        go-version: [1.18, 1.18, 1.18]  # You can specify Go versions to test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Install dependencies
+        run: |
+          go mod tidy
+
+      - name: Build Go binary
+        run: |
+          GOOS=${{ matrix.os }} GOARCH=amd64 go build -o errorai-${{ matrix.os }}-${{ matrix.go-version }} .
+
+      - name: Archive binary as an artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: errorai-${{ matrix.os }}-${{ matrix.go-version }}
+          path: errorai-${{ matrix.os }}-${{ matrix.go-version }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Upload Release Asset
+        uses: gh-actions/upload-release-asset@v1
+        with:
+          tag: ${{ github.ref_name }}
+          asset_path: errorai-${{ matrix.os }}-${{ matrix.go-version }}
+          asset_name: errorai-${{ matrix.os }}-${{ matrix.go-version }}
+          asset_content_type: application/octet-stream

@@ -28,7 +28,7 @@ func NewGenAI(client *genai.Client, model string) *GeminiAI {
 func (c *GeminiAI) SendError(message string) error {
 
 	model := c.client.GenerativeModel(c.model)
-	message = fmt.Sprintf("what does this error mean (answer in one or two lines max. if no error is detected, don't return a message): %s", message)
+	message = fmt.Sprintf("what does this error mean (answer in one or two lines max. if no error is detected or recognized, don't return a message): %s", message)
 
 	iter := model.GenerateContentStream(context.Background(), genai.Text(message))
 	for resp, err := iter.Next(); ; resp, err = iter.Next() {

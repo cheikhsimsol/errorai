@@ -34,8 +34,8 @@ jobs:
       - name: Archive binary as an artifact
         uses: actions/upload-artifact@v4
         with:
-          name: errorai-${{ matrix.os }}-${{ matrix.go-version }}
-          path: errorai-${{ matrix.os }}-${{ matrix.go-version }}
+          name: errorai-${{ matrix.os }}-${{ matrix.go-version }}-s
+          path: errorai-${{ matrix.os }}-${{ matrix.go-version }}-s
 
   release:
     needs: build

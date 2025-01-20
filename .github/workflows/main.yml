@@ -54,7 +54,12 @@ jobs:
       - name: Get current version tag
         id: get_version
         run: |
-          VERSION_TAG=$(git describe --tags --abbrev=0)
+          # Try to get the latest tag
+          VERSION_TAG=$(git describe --tags --abbrev=0 2>/dev/null)
+          if [ -z "$VERSION_TAG" ]; then
+            echo "No tags found. Using commit SHA as version."
+            VERSION_TAG="v${GITHUB_SHA:0:7}"  # Use a shortened commit SHA
+          fi
           echo "Current version tag: $VERSION_TAG"
           echo "version_tag=$VERSION_TAG" >> $GITHUB_ENV
 

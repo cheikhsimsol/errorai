@@ -57,8 +57,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v0.0.31
-          release_name: Release v0.0.31
+          tag_name: v0.0.33
+          release_name: Release v0.0.33
           draft: false
           prerelease: false
 
@@ -73,5 +73,5 @@ jobs:
         run: |
           for file in artifacts/*; do
             echo "Uploading $file"
-            gh release upload v0.0.31 "$file" --clobber
+            gh release upload v0.0.33 "$file" --clobber
           done

@@ -68,10 +68,9 @@ jobs:
           path: artifacts/
 
       - name: Upload Release Assets
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          for file in artifacts/*; do
-            echo "Uploading $file"
-            gh release upload v1.0.0 "$file" --clobber
-          done
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./artifacts/
+          asset_name: ${{ basename(asset_path) }}
+          asset_content_type: application/octet-stream

@@ -73,9 +73,6 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v3
 
-      - name: List downloaded files
-        run: ls -l artifacts/
-
       - name: Upload Release Assets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

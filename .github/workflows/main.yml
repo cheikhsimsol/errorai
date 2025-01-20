@@ -51,7 +51,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Upload Release Asset
-        uses: gh-actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag: ${{ github.ref_name }}
           asset_path: errorai-${{ matrix.config.os }}-${{ matrix.go-version }}

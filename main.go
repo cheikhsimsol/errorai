@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/google/generative-ai-go/genai"
 	"google.golang.org/api/option"
@@ -58,17 +59,20 @@ func main() {
 
 	// Create a scanner to read stderr.
 	scanner := bufio.NewScanner(stderrPipe)
+	messages := []string{}
 	for scanner.Scan() {
 		// Process each line of stderr and pass it to the Gemini client.
 		errMsg := scanner.Text()
 		log.Printf("Captured stderr: %s", errMsg)
 
-		// Send the error message to Gemini for processing (or for logging)
-		// This is a placeholder function you need to implement for handling the error.
-		err := g.SendError(errMsg)
-		if err != nil {
-			log.Printf("error processing stderr message with Gemini AI: %s", err)
-		}
+		messages = append(messages, errMsg)
+	}
+
+	// Send the error message to Gemini for processing (or for logging)
+	// This is a placeholder function you need to implement for handling the error.
+	err = g.SendError(strings.Join(messages, "\n"))
+	if err != nil {
+		log.Printf("error processing stderr message with Gemini AI: %s", err)
 	}
 
 	if err := scanner.Err(); err != nil {

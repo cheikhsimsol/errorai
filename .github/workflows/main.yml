@@ -72,8 +72,6 @@ jobs:
 
       - name: Download all artifacts
         uses: actions/download-artifact@v3
-        with:
-          path: artifacts/
 
       - name: List downloaded files
         run: ls -l artifacts/

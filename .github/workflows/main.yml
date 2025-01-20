@@ -72,12 +72,17 @@ jobs:
 
       - name: Download all artifacts
         uses: actions/download-artifact@v3
+        with:
+          path: artifacts/
+
+      - name: List downloaded files
+        run: ls -l artifacts/
 
       - name: Upload Release Assets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          for file in ./*; do
+          for file in artifacts/*; do
             echo "Uploading $file"
             gh release upload ${{ env.version_tag }} "$file" --clobber
           done

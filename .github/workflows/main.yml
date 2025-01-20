@@ -41,7 +41,17 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: errorai-${{ matrix.config.goos }}-${{ matrix.go-version }}
-          path: ./errorai-${{ matrix.config.goos }}-${{ matrix.go-version }}
+          path: errorai-${{ matrix.config.goos }}-${{ matrix.go-version }}
+
+      - name: Download built artifact
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts/
+
+      - name: Verify downloaded artifact
+        run: |
+          echo "Artifacts downloaded:"
+          ls -l artifacts/
 
   release:
     needs: build
@@ -55,19 +65,9 @@ jobs:
         id: define_version
         run: |
           # Define the fixed version tag
-          VERSION_TAG="v1.6.12"  # Change this to the desired fixed tag
+          VERSION_TAG="v1.6.13"  # Change this to the desired fixed tag
           echo "Using fixed version: $VERSION_TAG"
           echo "version_tag=$VERSION_TAG" >> $GITHUB_ENV
-
-      - name: Download all artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: artifacts/
-
-      - name: Verify downloaded artifacts
-        run: |
-          echo "Checking artifacts directory..."
-          ls -l artifacts/
 
       - name: Create GitHub Release
         id: create_release
@@ -84,5 +84,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          for file in artifacts/*; do
+          for file in artifacts/*/*; do
             echo "Uploading $file"
+            gh release upload ${{ env.version_tag }} "$file" --clobber
+          done

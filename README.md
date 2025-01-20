@@ -22,7 +22,7 @@ The Go code in `main.go` is missing a closing curly brace `}`.
 
 ## Prerequisites
 - **Go 1.18+**: Ensure you have Go installed on your system.
-- **Gemini AI API Key**: You need a valid API key from Google Gemini to use the AI features.
+- **Gemini AI API Key**: You need a valid API key from Google Gemini to use the AI features. Get one [here](https://aistudio.google.com/app/apikey)
 - **Internet connection**: Required for the Gemini API to function.
 
 ## Configuration

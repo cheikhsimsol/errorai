@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: errorai-${{ matrix.os }}-${{ matrix.go-version }}-s
-          path: errorai-${{ matrix.os }}-${{ matrix.go-version }}-s
+          path: ./errorai-${{ matrix.os }}-${{ matrix.go-version }}
 
   release:
     needs: build

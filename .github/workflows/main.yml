@@ -55,7 +55,7 @@ jobs:
         id: define_version
         run: |
           # Define the fixed version tag
-          VERSION_TAG="v1.5.0"  # Change this to the desired fixed tag
+          VERSION_TAG="v1.6.0"  # Change this to the desired fixed tag
           echo "Using fixed version: $VERSION_TAG"
           echo "version_tag=$VERSION_TAG" >> $GITHUB_ENV
 

@@ -59,6 +59,16 @@ jobs:
           echo "Using fixed version: $VERSION_TAG"
           echo "version_tag=$VERSION_TAG" >> $GITHUB_ENV
 
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts/
+
+      - name: Verify downloaded artifacts
+        run: |
+          echo "Checking artifacts directory..."
+          ls -l artifacts/
+
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
@@ -70,19 +80,9 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Download all artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: artifacts/
-
-      - name: List downloaded files
-        run: ls -l artifacts/
-
       - name: Upload Release Assets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           for file in artifacts/*; do
             echo "Uploading $file"
-            gh release upload ${{ env.version_tag }} "$file" --clobber
-          done

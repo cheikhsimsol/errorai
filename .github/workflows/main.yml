@@ -51,22 +51,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Get latest tag and increment version
-        id: increment_version
+      - name: Define fixed tag name
+        id: define_version
         run: |
-          # Get the latest tag
-          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null)
-          
-          # If no tags found, start with v1.0.0
-          if [ -z "$LATEST_TAG" ]; then
-            VERSION="v1.0.0"
-          else
-            # Increment the version (assuming semantic versioning)
-            VERSION=$(echo $LATEST_TAG | awk -F. -v OFS=. '{$NF++;print}')
-          fi
-          
-          echo "New version: $VERSION"
-          echo "version_tag=$VERSION" >> $GITHUB_ENV
+          # Define the fixed version tag
+          VERSION_TAG="v1.5.0"  # Change this to the desired fixed tag
+          echo "Using fixed version: $VERSION_TAG"
+          echo "version_tag=$VERSION_TAG" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         id: create_release

@@ -2,6 +2,7 @@
 
 ErrorAI is a tool designed to help beginners identify and understand errors returned by a program during compilation. It uses Google Gemini AI to process the error messages and provides insights into the cause of the errors. This tool is ideal for anyone learning programming, particularly in languages like Go, who may struggle with interpreting error messages.
 
+![img](./demo.gif)
 
 ## Features
 - Runs a command (e.g., `go run build.go`) and captures the error output (stderr).

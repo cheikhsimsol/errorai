@@ -3,8 +3,7 @@ name: Build and Release Go Binary
 
 on:
   push:
-    tags:
-      - 'v*'  # This will trigger the workflow when a version tag is pushed.
+    - master
 
 jobs:
   build:

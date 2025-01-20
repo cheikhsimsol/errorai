@@ -33,7 +33,7 @@ jobs:
       
       - name: Generate timestamp
         run: |
-        echo "TIMESTAMP=$(date '+%Y-%m-%d_%H-%M-%S')" >> $GITHUB_ENV
+          echo "TIMESTAMP=$(date '+%Y-%m-%d_%H-%M-%S')" >> $GITHUB_ENV
 
       - name: Archive binary as an artifact
         uses: actions/upload-artifact@v4

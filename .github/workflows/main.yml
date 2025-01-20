@@ -33,8 +33,10 @@ jobs:
           go mod tidy
 
       - name: Build Go binary
+        env:
+          CGO_ENABLED: 0
         run: |
-          GOOS=${{ matrix.config.goos }} GOARCH=amd64 go build -o errorai-${{ matrix.config.os }}-${{ matrix.go-version }} .
+          GOOS=${{ matrix.config.goos }} GOARCH=amd64 go build -ldflags="-s -w" -o errorai-${{ matrix.config.os }}-${{ matrix.go-version }} .
       
       - name: Archive binary as an artifact
         uses: actions/upload-artifact@v4
@@ -57,14 +59,13 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          draft: true
-          prerelease: true
+          draft: false
+          prerelease: false
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag: ${{ github.ref_name }}
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: errorai-${{ matrix.config.os }}-${{ matrix.go-version }}
           asset_name: errorai-${{ matrix.config.os }}-${{ matrix.go-version }}

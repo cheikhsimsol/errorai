@@ -1,10 +1,6 @@
 
 name: Build and Release Go Binary
 
-on:
-  push:
-    - master
-
 jobs:
   build:
     runs-on: ubuntu-latest  # The job runs on Ubuntu (you can run this on other OSs if needed)

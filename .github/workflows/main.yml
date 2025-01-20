@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: errorai-${{ matrix.config.goos }}-${{ matrix.go-version }}
-          path: ./errorai-${{ matrix.config.goos }}-${{ matrix.go-version }}
+          path: errorai-${{ matrix.config.goos }}-${{ matrix.go-version }}
 
       - name: Download built artifacts
         uses: actions/download-artifact@v3

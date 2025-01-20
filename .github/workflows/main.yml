@@ -71,6 +71,6 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/
-          asset_name: ${{ basename(asset_path) }}
+          asset_path: ./errorai-${{ matrix.config.os }}-${{ matrix.go-version }}
+          asset_name: errorai-${{ matrix.config.os }}-${{ matrix.go-version }}
           asset_content_type: application/octet-stream

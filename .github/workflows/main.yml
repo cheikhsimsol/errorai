@@ -1,6 +1,9 @@
 
 name: Build and Release Go Binary
 
+on:
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest  # The job runs on Ubuntu (you can run this on other OSs if needed)

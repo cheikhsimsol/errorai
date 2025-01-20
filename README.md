@@ -4,6 +4,17 @@ ErrorAI is a tool designed to help beginners identify and understand errors retu
 
 ![img](./demo.gif)
 
+Other sample output:
+
+```bash
+$ errorai go run ./test_rep/
+2025/01/20 09:17:05 Welcome to ErrorAI!
+2025/01/20 09:17:06 Captured stderr: # errorai/test_rep
+2025/01/20 09:17:06 Captured stderr: test_rep/main.go:4:13: syntax error: unexpected EOF, expected }
+The Go code in `main.go` is missing a closing curly brace `}`.
+2025/01/20 09:17:07 command finished with error: exit status 1
+```
+
 ## Features
 - Runs a command (e.g., `go run build.go`) and captures the error output (stderr).
 - Sends the error messages to Google Gemini AI for analysis.

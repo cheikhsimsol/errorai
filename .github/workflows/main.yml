@@ -77,7 +77,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          for file in artifacts/*; do
+          for file in ./*; do
             echo "Uploading $file"
             gh release upload ${{ env.version_tag }} "$file" --clobber
           done

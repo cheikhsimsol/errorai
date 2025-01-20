@@ -57,8 +57,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v0.0.33
-          release_name: Release v0.0.33
+          tag_name: ${{ github.sha }}
+          release_name: Release ${{ github.sha }}
           draft: false
           prerelease: false
 
@@ -67,11 +67,14 @@ jobs:
         with:
           path: artifacts/
 
+      - name: List downloaded files
+        run: ls -l artifacts/
+
       - name: Upload Release Assets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           for file in artifacts/*; do
             echo "Uploading $file"
-            gh release upload v0.0.33 "$file" --clobber
+            gh release upload ${{ github.sha }} "$file" --clobber
           done

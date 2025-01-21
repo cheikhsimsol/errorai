@@ -35,11 +35,37 @@ jobs:
         env:
           CGO_ENABLED: 0
         run: |
-          GOOS=${{ matrix.config.goos }} GOARCH=amd64 go build -ldflags="-s -w" -o errorai-${{ matrix.config.goos }}-${{ matrix.go-version }} .
+          OUTPUT_NAME="errorai-${{ matrix.config.goos }}-${{ matrix.go-version }}"
+          if [ "${{ matrix.config.goos }}" = "windows" ]; then
+            OUTPUT_NAME="$OUTPUT_NAME.exe"
+          fi
+          GOOS=${{ matrix.config.goos }} GOARCH=amd64 go build -ldflags="-s -w" -o $OUTPUT_NAME .
 
-      - name: Archive binary as an artifact
-        uses: actions/upload-artifact@v4
+      - name: Define dynamic version tag
+        id: define_version
+        run: |
+          # Construct the version tag dynamically
+          TIMESTAMP=$(date +%s)
+          VERSION_TAG="v1.${TIMESTAMP}-${{ matrix.config.goos }}-${{ matrix.go-version }}"
+          echo "Using dynamic version: $VERSION_TAG"
+          echo "version_tag=$VERSION_TAG" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: errorai-${{ matrix.config.goos }}-${{ matrix.go-version }}
-          path: errorai-${{ matrix.config.goos }}-${{ matrix.go-version }}
+          tag_name: ${{ env.version_tag }}
+          release_name: Release ${{ env.version_tag }}
+          draft: false
+          prerelease: false
 
+      - name: Upload Release Assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for file in errorai-*; do
+            echo "Uploading $file"
+            gh release upload ${{ env.version_tag }} "$file" --clobber
+          done

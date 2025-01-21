@@ -17,6 +17,12 @@ func main() {
 	log.Println("Welcome to ErrorAI!")
 
 	key := os.Getenv("GEMINI_KEY")
+
+	if key == "" {
+
+		log.Fatal(".env `GEMINI_KEY` must be set to a valid key. Get one here: https://aistudio.google.com/app/apikey")
+
+	}
 	client, err := genai.NewClient(
 		context.Background(),
 		option.WithAPIKey(key),

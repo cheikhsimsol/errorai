@@ -1,5 +1,6 @@
 name: Build and Release Go Binary
 
+# on specifies when to run workflow
 on:
   push:
     branches:
@@ -44,7 +45,6 @@ jobs:
           GOOS=${{ matrix.config.goos }} GOARCH=amd64 go build -ldflags="-s -w" -o $OUTPUT_NAME .
 
       - name: Define dynamic version tag
-        id: define_version
         run: |
           # Construct the version tag dynamically
           TIMESTAMP=$(date +%s)
@@ -53,7 +53,6 @@ jobs:
           echo "version_tag=$VERSION_TAG" >> $GITHUB_ENV
 
       - name: Create GitHub Release
-        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
